@@ -22,9 +22,21 @@ math::pca(data_in, num_dims, pca_out, num_comp);
 ```
 
 ## Settings
-By default, the the data is centered such that each dimension/channel has zero mean.
-Other normalization steps before this centering are possible as well: [Mean normalization](https://en.wikipedia.org/wiki/Feature_scaling#Mean_normalization) and [Rescaling (min-max normalization)](https://en.wikipedia.org/wiki/Feature_scaling#Rescaling_(min-max_normalization)).
-This plugin implements two PCA computation algorithms: Explicitly computing the eigenvectors of the covariance matrix and singular value decomposition.
+Two normalization procedures are implemented:
+Other normalization steps before this centering are possible as well: 
+- [Mean normalization](https://en.wikipedia.org/wiki/Feature_scaling#Mean_normalization) (`math::DATA_NORM::MEAN`) 
+- [Rescaling (min-max normalization)](https://en.wikipedia.org/wiki/Feature_scaling#Rescaling_(min-max_normalization)) (`math::DATA_NORM::MINMAX`).
+
+Each normalization centers the data such that each dimension/channel has zero mean. 
+
+This project implements two PCA computation algorithms: 
+- Explicitly computing the eigenvectors of the covariance matrix (`math::PCA_ALG::COV`)
+- Singular value decomposition (`math::PCA_ALG::SVD`).
+
+The default settings are:
+```cpp
+math::pca(data_in, num_dims, pca_out, num_comp, math:PCA_ALG::SVD, norm = math:DATA_NORM::MINMAX);
+```
 
 ## Tests
 To run the [tests](test/README.md), make sure to Eigen as a submodules when cloning the repo and prepare the test data:
