@@ -1,0 +1,13 @@
+{
+    "name": "test",
+    "version": "0.0.1",
+    "dependencies": [
+      "catch2",
+      "nlohmann-json"
+    ],
+    "builtin-baseline":"7476f0d4e77d3333fbb249657df8251c28c4faae",
+    "overrides": [
+      { "name": "catch2", "version": "3.3.2" },
+      { "name": "nlohmann-json", "version": "3.11.2" }
+    ]
+  }
