@@ -36,7 +36,7 @@ This project implements two PCA computation algorithms:
 
 The default settings are:
 ```cpp
-math::pca(data_in, num_dims, pca_out, num_comp, math:PCA_ALG::SVD, norm = math:DATA_NORM::MINMAX);
+math::pca(data_in, num_dims, pca_out, num_comp, math:PCA_ALG::SVD, math:DATA_NORM::MINMAX);
 ```
 
 ## Tests
