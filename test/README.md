@@ -21,3 +21,8 @@ Here we use Eigen as a submodule. In your project you can also setup [Eigen](htt
 Other dependencies, as specified in `./vcpkg.json` are
 - [Catch2](https://github.com/catchorg/Catch2) for unit testing
 - [nlohmann_json](https://github.com/nlohmann/json) for reading meta data about the test data from json files in cpp
+
+If you have [vcpkg](https://github.com/microsoft/vcpkg/) set up, you can pass cmake the toolchain file to install and find these dependencies automatically:
+```
+cmake -S . -B build "-DCMAKE_TOOLCHAIN_FILE=[path to vcpkg]/scripts/buildsystems/vcpkg.cmake"
+```
