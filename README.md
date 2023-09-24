@@ -25,7 +25,8 @@ math::pca(data_in, num_dims, pca_out, num_comp);
 Two normalization procedures are implemented:
 Other normalization steps before this centering are possible as well: 
 - [Mean normalization](https://en.wikipedia.org/wiki/Feature_scaling#Mean_normalization) (`math::DATA_NORM::MEAN`) 
-- [Rescaling (min-max normalization)](https://en.wikipedia.org/wiki/Feature_scaling#Rescaling_(min-max_normalization)) (`math::DATA_NORM::MINMAX`).
+- [Rescaling (min-max normalization)](https://en.wikipedia.org/wiki/Feature_scaling#Rescaling_(min-max_normalization)) (`math::DATA_NORM::MINMAX`)
+- No normalization (`math::DATA_NORM::NONE`)
 
 Each normalization centers the data such that each dimension/channel has zero mean. 
 
@@ -39,11 +40,4 @@ math::pca(data_in, num_dims, pca_out, num_comp, math:PCA_ALG::SVD, norm = math:D
 ```
 
 ## Tests
-To run the [tests](test/README.md), make sure to Eigen as a submodules when cloning the repo and prepare the test data:
-```
-git clone --recurse-submodule https://github.com/alxvth/Eigen-PCA.git
-
-cd Eigen-PCA/test
-pip install -r requirements.txt
-python create_reference_data.py
-```
+To run some test, follow the [setup instructions](test/README.md), which include creating reference data and ensuring that Eigen is available.
