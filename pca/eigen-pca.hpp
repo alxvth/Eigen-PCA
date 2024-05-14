@@ -5,17 +5,15 @@
 #ifndef EIGEN_PCA_H
 #define EIGEN_PCA_H
 
-#include <vector>
-#include <string>
+#include <cassert>
 #include <iostream>
 #include <limits>
-#include <cassert>
+#include <string>
+#include <vector>
 
-#ifdef _OPENMP 
-#include <omp.h>
-#endif
-
-#include "Eigen/Dense"
+#include <Eigen/Core>
+#include <Eigen/Eigenvalues>
+#include <Eigen/SVD>
 
 namespace math {
 
@@ -54,12 +52,11 @@ namespace math {
 
     Eigen::MatrixXf convertStdVectorToEigenMatrix(const std::vector<float>& data_in, const size_t num_dims)
     {
-        const size_t num_row = data_in.size() / num_dims;
-        const size_t num_col = num_dims;
+        const int64_t num_row = data_in.size() / num_dims;
+        const int64_t num_col = num_dims;
 
-        // omp on visual studio can only handle signed integers
-        if (num_row > static_cast<size_t>(std::numeric_limits<int32_t>::max()))
-            std::cerr << "PCA::convertStdVectorToEigenMatrix can only handle data with up to std::numeric_limits<uint32_t>::max() points" << std::endl;
+        if (num_row > std::numeric_limits<int64_t>::max())
+            std::cerr << "PCA::convertStdVectorToEigenMatrix can only handle data with up to std::numeric_limits<int64_t>::max() points" << std::endl;
 
         // convert std vector to Eigen MatrixXf
         // each row in MatrixXf corresponds to one data point
@@ -70,11 +67,11 @@ namespace math {
 #pragma omp parallel for
 #endif NDEBUG
         // loop over data points
-        for(int32_t point = 0; point < static_cast<int32_t>(num_row); point++)
+        for (int64_t point = 0; point < static_cast<int64_t>(num_row); point++)
         {
             // loop over data point values
-            for (size_t dim = 0; dim < num_col; dim++)
-                data(point, dim) = data_in[point* num_dims + dim];
+            for (int64_t dim = 0; dim < num_col; dim++)
+                data(point, dim) = data_in[point * num_dims + dim];
         }
 
         // this would be more concise but only works if data_in is not const
@@ -192,7 +189,7 @@ namespace math {
     {
         if (num_comp > std::min(num_row, num_col))
         {
-            std::cout << "pca: num_comp must be smaller than min(num_row, num_col). Setting num_comp = min(num_row, num_col)"  << std::endl;;
+            std::cout << "pca: num_comp must be smaller than min(num_row, num_col). Setting num_comp = min(num_row, num_col)" << std::endl;
             num_comp = std::min(num_row, num_col);
         }
         else if (num_comp <= 0)
@@ -206,16 +203,16 @@ namespace math {
     inline Eigen::MatrixXf pcaSVD(const Eigen::MatrixXf& data, const size_t num_comp)
     {
         // compute svd
-        Eigen::BDCSVD<Eigen::MatrixXf, Eigen::ComputeThinV> svd(data);
+        Eigen::BDCSVD<Eigen::MatrixXf> svd(data, Eigen::ComputeThinV);
 
-        if(svd.info() != Eigen::Success)
+        if (svd.info() != Eigen::Success)
             throw (std::runtime_error("pcaSVD failed. Eigen::ComputationInfo " + std::to_string(static_cast<int32_t>(svd.info()))));
 
-        return svd.matrixV()(Eigen::placeholders::all, Eigen::seq(0, num_comp - 1));
+        return svd.matrixV()(Eigen::all, Eigen::seq(0, num_comp - 1));
     }
 
     // data should be have column-wise zero empirical mean 
-    inline Eigen::MatrixXf pcaCovMat(const Eigen::MatrixXf& data, const size_t num_comp) 
+    inline Eigen::MatrixXf pcaCovMat(const Eigen::MatrixXf& data, const size_t num_comp)
     {
         // covaraince matrix
         Eigen::MatrixXf covMat = data.transpose() * data;
@@ -238,7 +235,7 @@ namespace math {
         eigenvectors = eigenvectors * perm;     // permute columns
         eigenvalues = perm * eigenvalues;
 
-        return eigenvectors(Eigen::placeholders::all, Eigen::seq(0, num_comp - 1));
+        return eigenvectors(Eigen::all, Eigen::seq(0, num_comp - 1));
     }
 
     inline Eigen::MatrixXf pcaTransform(const Eigen::MatrixXf& data, const Eigen::MatrixXf& principal_components)
@@ -277,7 +274,7 @@ namespace math {
                 return meanNormalization(dat);
             else // norm == DATA_NORM::NONE
                 return dat;
-        };
+            };
 
         // choose which pcaSVD algorithm to use 
         auto pca_alg = [&](const Eigen::MatrixXf& dat) {
@@ -285,7 +282,7 @@ namespace math {
                 return pcaSVD(dat, _num_comp);
             else // algorithm == PCA_ALG::COV
                 return pcaCovMat(dat, _num_comp);
-        };
+            };
 
         // prep data: normalization
         Eigen::MatrixXf data_normed = norm_data(data);

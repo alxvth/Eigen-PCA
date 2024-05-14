@@ -5,9 +5,9 @@
       "catch2",
       "nlohmann-json"
     ],
-    "builtin-baseline":"7476f0d4e77d3333fbb249657df8251c28c4faae",
+    "builtin-baseline":"943c5ef1c8f6b5e6ced092b242c8299caae2ff01",
     "overrides": [
-      { "name": "catch2", "version": "3.3.2" },
+      { "name": "catch2", "version": "3.5.2" },
       { "name": "nlohmann-json", "version": "3.11.2" }
     ]
   }

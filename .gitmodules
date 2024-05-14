@@ -1,4 +1,4 @@
 [submodule "test/eigen"]
 	path = test/eigen
 	url = https://gitlab.com/libeigen/eigen.git
-	branch = master
+	branch = 3.4
