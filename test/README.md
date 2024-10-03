@@ -1,6 +1,6 @@
 # PCA Plugin Test
 
-Before setting up the test project with cmake, make sure that Eigen is availbale (as a submodules of this repo) and prepare the test data:
+Clone this repo, create test data and run tests:
 ```
 git clone https://github.com/alxvth/Eigen-PCA.git
 
