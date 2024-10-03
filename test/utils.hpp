@@ -3,7 +3,7 @@
 #include <fstream>
 #include <iostream>
 
-#include "Eigen/Dense"
+#include <Eigen/Dense>
 
 #include "pca/eigen-pca.hpp"
 

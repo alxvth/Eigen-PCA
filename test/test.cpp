@@ -1,14 +1,17 @@
-#include <catch2/catch_test_macros.hpp>
-#include <nlohmann/json.hpp>
-
-#include <fstream>
-#include <filesystem>
-#include <source_location>
-#include <iostream>
+#include "pca/eigen-pca.hpp"
 
 #include "utils.hpp"
 
-#include "pca/eigen-pca.hpp"
+#include <filesystem>
+#include <iosfwd>
+#include <source_location>
+#include <string>
+#include <vector>
+
+#include <Eigen/Dense>
+
+#include <catch2/catch_test_macros.hpp>
+#include <nlohmann/json.hpp>
 
 using namespace utils;
 

@@ -2,7 +2,7 @@
 
 Before setting up the test project with cmake, make sure that Eigen is availbale (as a submodules of this repo) and prepare the test data:
 ```
-git clone --recurse-submodule https://github.com/alxvth/Eigen-PCA.git
+git clone https://github.com/alxvth/Eigen-PCA.git
 
 cd Eigen-PCA/test
 pip install -r requirements.txt
@@ -16,13 +16,8 @@ cmake --build build --config Release
 Running `./create_reference_data.py` creates reference data sets and reference PCA transformations in `.data`  using [scikit-learn](https://scikit-learn.org) and [numpy](https://numpy.org/).
 
 ## Dependencies
-Here we use Eigen as a submodule. In your project you can also setup [Eigen](https://gitlab.com/libeigen/eigen) as described in their [documentation](https://eigen.tuxfamily.org/dox/TopicCMakeGuide.html).
-
-Other dependencies, as specified in `./vcpkg.json` are
+Several dependencies are automatically downloaded during the cmake configuration: 
+- [Eigen](https://gitlab.com/libeigen/eigen)
 - [Catch2](https://github.com/catchorg/Catch2) for unit testing
 - [nlohmann_json](https://github.com/nlohmann/json) for reading meta data about the test data from json files in cpp
 
-If you have [vcpkg](https://github.com/microsoft/vcpkg/) set up, you can pass cmake the toolchain file to install and find these dependencies automatically:
-```
-cmake -S . -B build "-DCMAKE_TOOLCHAIN_FILE=[path to vcpkg]/scripts/buildsystems/vcpkg.cmake"
-```
