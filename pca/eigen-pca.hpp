@@ -6,10 +6,14 @@
 #define EIGEN_PCA_H
 
 #include <cassert>
+#include <chrono>
+#include <cstdint>
 #include <iostream>
 #include <limits>
 #include <numeric>
+#include <stdexcept>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include <Eigen/Core>
@@ -215,7 +219,7 @@ namespace math {
     // data should be have column-wise zero empirical mean 
     inline Eigen::MatrixXf pcaCovMat(const Eigen::MatrixXf& data, const size_t num_comp)
     {
-        // covaraince matrix
+        // covariance matrix
         Eigen::MatrixXf covMat = data.transpose() * data;
 
         // covariance matrices are symmetric, so use appropriate solver
